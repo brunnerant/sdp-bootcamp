@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
 
 jacoco {
     toolVersion = "0.8.4"
@@ -48,6 +49,31 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     executionData = fileTree(dir: project.buildDir, includes: [
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
+}
+
+checkstyle {
+    configFile file("$rootProject.rootDir/checkstyle.xml")
+    toolVersion '8.29'
+}
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+
+    def configProps = ['proj.module.dir': projectDir.absolutePath]
+    configProperties configProps
+
+    classpath = files()
+
+    showViolations false
+
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
 }
 
 dependencies {

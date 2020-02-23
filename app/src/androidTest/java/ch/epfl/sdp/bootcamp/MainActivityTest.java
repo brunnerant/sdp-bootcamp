@@ -18,13 +18,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
+    public final ActivityTestRule<MainActivity> mainActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
     @Test
     public void testCanGreetUsers() {
-        onView(withId(R.id.mainText)).perform(typeText("Hello from my unit test")).perform(closeSoftKeyboard());
+        onView(withId(R.id.mainText)).perform(typeText("Hello from my unit test"))
+            .perform(closeSoftKeyboard());
         onView(withId(R.id.mainButton)).perform(click());
-        // onView(withId(R.id.greetingMessage)).check(matches(withText("Hello from my unit test!")));
+        // onView(withId(R.id.greetingMessage))
+        //     .check(matches(withText("Hello from my unit test!")));
     }
 }
